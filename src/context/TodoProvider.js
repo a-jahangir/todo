@@ -1,11 +1,9 @@
-import TodoContext from "./TodoContext"
+import TodoContext from "./TodoContext";
 
 const TodoProvider = ({ children }) => {
-    return (
-        <TodoContext.Provider value={"todos"}>
-            {children}
-        </TodoContext.Provider>
-    )
-}
+  return (
+    <TodoContext.Provider value={"todos"}>{children}</TodoContext.Provider>
+  );
+};
 
-export default TodoProvider
+export default TodoProvider;

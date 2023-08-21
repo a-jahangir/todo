@@ -11,11 +11,14 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/todos" element={
-            <TodoProvider>
-              <Todos />
-            </TodoProvider>
-          } />
+          <Route
+            path="/todos"
+            element={
+              <TodoProvider>
+                <Todos />
+              </TodoProvider>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </>
