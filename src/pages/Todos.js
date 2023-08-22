@@ -1,19 +1,29 @@
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import TodoContext from "../context/TodoContext"
 
 const Todos = () => {
-    const todoContext = useContext(TodoContext)
+    const { todos, getTodos, error } = useContext(TodoContext)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch("https://jsonplaceholder.typicode.com/todos")
-            .then(res => res.json())
-            .then(data => {
-                todoContext.dispatch({ type: 'SET_TODOS', payload: data })
-            })
-    }, [])
+        (async () => {
+            await getTodos();
+            setLoading(false);
+        })()
+    }, [getTodos])
 
     return (
-        <h2>hi</h2>
+        <>
+            <div className="container mt-5">
+                <div className="row">
+                    {error && <h1>{error}</h1>}
+                    {loading && <div className="col-md-12 text-center"><div className="spinner-border mt-5"></div></div>}
+                    {todos && todos.map(todo => (
+                        <h1 key={todo.id}>{todo.title}</h1>
+                    ))}
+                </div>
+            </div>
+        </>
     )
 }
 
