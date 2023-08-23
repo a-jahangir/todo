@@ -75,9 +75,28 @@ const TodoProvider = ({ children }) => {
       dispatch({ type: 'SET_ERROR', payload: err.message })
     }
   }
+  const deleteTodo = async (todoId) => {
+    try {
+      await axios.delete(`https://jsonplaceholder.typicode.com/todos/${todoId}`)
+      dispatch({ type: 'DELETE_TODOS', payload: todoId })
+      dispatch({ type: 'SET_ERROR', payload: null })
+      Swal.fire({
+        title: "Task Deleted",
+        icon: "warning",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        timer: 3000,
+        toast: true,
+        position: 'top'
+      })
+    } catch (err) {
+      dispatch({ type: 'DELETE_TODOS', payload: [] })
+      dispatch({ type: 'SET_ERROR', payload: err.message })
+    }
+  }
 
   return (
-    <TodoContext.Provider value={{ ...state, getTodos, filterTodos, createTodos, updateTodo }}>
+    <TodoContext.Provider value={{ ...state, getTodos, filterTodos, createTodos, updateTodo, deleteTodo }}>
       {children}
     </TodoContext.Provider>
   );
