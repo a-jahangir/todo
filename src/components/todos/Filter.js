@@ -17,7 +17,7 @@ const FilterTodos = () => {
                 <div className="col-md-2">
                     <h6>Filter</h6>
                     <select onChange={(e) => handleFilter(e)} className="form-select form-select-sm" >
-                        <option value="100">all</option>
+                        <option value="200">all</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="30">30</option>

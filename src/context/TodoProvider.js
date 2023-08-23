@@ -17,7 +17,7 @@ const TodoProvider = ({ children }) => {
       dispatch({ type: 'SET_TODOS', payload: res.data })
       dispatch({ type: 'SET_ERROR', payload: null })
     } catch (err) {
-      dispatch({ type: 'SET_TODOS', payload: null })
+      dispatch({ type: 'SET_TODOS', payload: [] })
       dispatch({ type: 'SET_ERROR', payload: err.message })
     }
   }, [])
@@ -28,7 +28,7 @@ const TodoProvider = ({ children }) => {
       dispatch({ type: 'Filter_TODOS', payload: res.data })
       dispatch({ type: 'SET_ERROR', payload: null })
     } catch (err) {
-      dispatch({ type: 'Filter_TODOS', payload: null })
+      dispatch({ type: 'Filter_TODOS', payload: [] })
       dispatch({ type: 'SET_ERROR', payload: err.message })
     }
   }
@@ -50,13 +50,34 @@ const TodoProvider = ({ children }) => {
         position: 'top'
       })
     } catch (err) {
-      dispatch({ type: 'CREATE_TODOS', payload: null })
+      dispatch({ type: 'SET_ERROR', payload: err.message })
+    }
+  }
+  const updateTodo = async (todo) => {
+    try {
+      const res = await axios.put(`https://jsonplaceholder.typicode.com/todos/${todo.id}`, {
+        title: todo.title,
+        completed: !todo.completed
+      })
+      dispatch({ type: 'UPDATE_TODOS', payload: res.data })
+      dispatch({ type: 'SET_ERROR', payload: null })
+      Swal.fire({
+        title: "Task updated",
+        icon: "success",
+        showConfirmButton: false,
+        timerProgressBar: true,
+        timer: 3000,
+        toast: true,
+        position: 'top'
+      })
+    } catch (err) {
+      dispatch({ type: 'UPDATE_TODOS', payload: [] })
       dispatch({ type: 'SET_ERROR', payload: err.message })
     }
   }
 
   return (
-    <TodoContext.Provider value={{ ...state, getTodos, filterTodos, createTodos }}>
+    <TodoContext.Provider value={{ ...state, getTodos, filterTodos, createTodos, updateTodo }}>
       {children}
     </TodoContext.Provider>
   );
